@@ -1,18 +1,37 @@
-// import React, { useEffect } from "react";
-// import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getPosts } from "../redux/actions/actions";
+import { Card, Button } from "semantic-ui-react";
 
-// const Profile = () => {
-//     const dispatch = useDispatch();
+const Profile = ({ match, history }) => {
+    //dispatch method
+    const dispatch = useDispatch();
+    useEffect(() => dispatch(getPosts(match.params.id)), [match.params]);
 
-//     useEffect(() => dispatch(getPosts(users.id)), []);
-//     const posts = useSelector((state) => state.posts);
-//     return (
-//         <div>
-//             {posts.map((el) => (
-//                 <h1>{el.title} </h1>
-//             ))}
-//         </div>
-//     );
-// };
+    const posts = useSelector((state) => state.posts);
+    console.log(posts);
 
-// export default Profile;
+    return (
+        <div>
+            <h2>Posts</h2>
+            <div className="card">
+                {posts.map((el) => (
+                    <Card>
+                        <Card.Content header={el.title} />
+                        <Card.Content description={el.body} />
+                    </Card>
+                ))}
+            </div>
+            <Button
+                content="Previous"
+                icon="left arrow"
+                labelPosition="left"
+                inverted
+                color="brown"
+                onClick={() => history.goBack()}
+            />
+        </div>
+    );
+};
+
+export default Profile;
