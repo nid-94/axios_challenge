@@ -1,5 +1,5 @@
 import axios from "axios";
-import { USER_FETCH,POSTS_FETCH } from "./actionType";
+import { USER_FETCH,POSTS_FETCH,COMMENTS_FETCH } from "./actionType";
 
 export const getUsers = () => async (dispatch) => {
 
@@ -26,3 +26,16 @@ export const getPosts = (id) => async (dispatch) => {
         });
     } catch (error) {}
 };
+export const getComments = (id) => async (dispatch) => {
+    try {
+        let result = await axios.get(
+            ` https://jsonplaceholder.typicode.com/comments?postId=${id}`
+        );
+
+        dispatch({
+            type: COMMENTS_FETCH,
+            payload:result.data ,
+        });
+    } catch (error) {}
+};
+
